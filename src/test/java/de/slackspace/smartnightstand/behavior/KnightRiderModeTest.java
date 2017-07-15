@@ -1,11 +1,13 @@
 package de.slackspace.smartnightstand.behavior;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.slackspace.smartnightstand.device.LedStripProvider;
 import de.slackspace.smartnightstand.device.api.LedStrip;
 import de.slackspace.smartnightstand.device.config.TinkerforgeProperties;
 
+@Ignore
 public class KnightRiderModeTest {
 
     @Test
