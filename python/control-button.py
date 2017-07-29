@@ -6,9 +6,9 @@ import pprint
 
 URL = 'http://localhost:8080/api/v1/lights'
 BUTTON_1 = 18
-BUTTON_2 = 24
-BUTTON_3 = 20
-BUTTON_4 = 21
+BUTTON_2 = 23  
+BUTTON_3 = 24
+BUTTON_4 = 21 
 
 GPIO.setmode(GPIO.BCM)
 
@@ -30,7 +30,7 @@ def doPost( mode ):
 def checkState(button, mode):
    btn_state = GPIO.input(button)
 
-   if btn_state == False:
+   if btn_state == True:
        print('Button Pressed')
        doPost(mode);
        time.sleep(0.2)
@@ -38,5 +38,5 @@ def checkState(button, mode):
 while True:
     checkState(BUTTON_1, 'off')
     checkState(BUTTON_2, 'mode1')
-    #checkState(BUTTON_3, 'mode2')
-    #checkState(BUTTON_4, 'mode3')
+    checkState(BUTTON_3, 'mode2')
+    checkState(BUTTON_4, 'mode3')
