@@ -44,12 +44,12 @@ public class LightResource {
     @RequestMapping(method = RequestMethod.POST, value="/mode1")
     public void enableModeOne() {
         ledStrip.removeFrameRenderedListener(currentMode);
-        ledStrip.setRangeLeds(0, 42, "#200000");
+        ledStrip.setRangeLeds(0, NUM_LEDS, "#200000");
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/mode2")
     public void enableModeTwo() {
-        setMode(new KnightRiderMode(ledStrip, 50, 900, 0, 42, 20));
+        setMode(new KnightRiderMode(ledStrip, 50, 900, 0, NUM_LEDS, 20));
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/mode3")
