@@ -63,7 +63,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>app</finalName>
+		<finalName>smartnightstand</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
