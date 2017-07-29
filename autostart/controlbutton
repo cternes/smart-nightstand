@@ -1,0 +1,34 @@
+#! /bin/sh
+# /etc/init.d/controlbutton 
+
+### BEGIN INIT INFO
+# Provides:          controlbutton
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Script to start python application controlbutton
+# Description:       See above
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting controlbutton"
+    # run application you want to start
+    python3.4 /opt/smartnightstand/control-button.py
+    ;;
+  stop)
+    echo "Stopping controlbutton"
+    # kill application you want to stop
+    killall control-button.py
+    ;;
+  *)
+    echo "Usage: /etc/init.d/controlbutton {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

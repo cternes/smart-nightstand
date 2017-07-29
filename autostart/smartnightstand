@@ -1,0 +1,34 @@
+#! /bin/sh
+# /etc/init.d/smartnightstand 
+
+### BEGIN INIT INFO
+# Provides:          smartnightstand
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Script to start java application smartnightstand
+# Description:       See above
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting smartnightstand"
+    # run application you want to start
+    java -jar /opt/smartnightstand/nightstand.jar
+    ;;
+  stop)
+    echo "Stopping smartnightstand"
+    # kill application you want to stop
+    killall nightstand.jar
+    ;;
+  *)
+    echo "Usage: /etc/init.d/smartnightstand {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
