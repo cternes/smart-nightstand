@@ -9,17 +9,20 @@ import org.springframework.context.annotation.Configuration;
 public class TinkerforgeProperties {
 
     private String host = "localhost";
-    
+
     private int port = 4223;
-    
+
+    @Value("${tf.master.uid}")
+    private String masterUid;
+
     @Value("${tf.ledstrip.uid}")
     private String ledStripUid;
 
     @Value("${tf.temp.uid}")
     private String tempUid;
-    
+
     private boolean useMocks;
-    
+
     public String getHost() {
         return host;
     }
@@ -58,5 +61,13 @@ public class TinkerforgeProperties {
 
     public void setUseMocks(boolean useMocks) {
         this.useMocks = useMocks;
+    }
+
+    public String getMasterUid() {
+        return masterUid;
+    }
+
+    public void setMasterUid(String masterUid) {
+        this.masterUid = masterUid;
     }
 }
