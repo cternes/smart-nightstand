@@ -3,6 +3,11 @@ import time
 import json
 import requests
 import pprint
+import logging
+
+logging.basicConfig(filename='controlbutton.log',level=logging.DEBUG)
+
+logging.debug('Starting controlbutton application')
 
 URL = 'http://localhost:8080/api/v1/lights'
 BUTTON_1 = 18
@@ -25,12 +30,14 @@ def doPost( mode ):
    response = requests.post(requestUrl, data=data_json, headers=headers)
 
    print('Made request to ' + requestUrl)
+   logging.debug('Made request to ' + requestUrl)
    return
 
 def checkState(button, mode):
    btn_state = GPIO.input(button)
 
    if btn_state == True:
+       logging.debug('Button Pressed')
        print('Button Pressed')
        doPost(mode);
        time.sleep(0.2)
