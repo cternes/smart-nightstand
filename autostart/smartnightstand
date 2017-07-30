@@ -1,32 +1,40 @@
-#! /bin/sh
-# /etc/init.d/smartnightstand 
+#!/bin/sh
 
-### BEGIN INIT INFO
-# Provides:          smartnightstand
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Script to start java application smartnightstand
-# Description:       See above
-### END INIT INFO
+DESC="Java Smartnightstand application"
+NAME=smartnightstand
+PIDFILE=/var/run/$NAME.pid
 
-# If you want a command to always run, put it here
+d_start() {
+    start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PIDFILE --chdir /opt/smartnightstand --exec /usr/bin/java -- -jar /opt/smartnightstand/nightstand.jar
+}
 
-# Carry out specific functions when asked to by the system
-case "$1" in
-  start)
-    echo "Starting smartnightstand"
-    # run application you want to start
-    java -jar /opt/smartnightstand/nightstand.jar
+d_stop() {
+    start-stop-daemon --stop --quiet --pidfile $PIDFILE
+    if [ -e $PIDFILE ]
+        then rm $PIDFILE
+    fi
+}
+
+case $1 in
+    start)
+    echo -n "Starting $DESC: $NAME"
+    d_start
+    echo "."
     ;;
-  stop)
-    echo "Stopping smartnightstand"
-    # kill application you want to stop
-    killall nightstand.jar
+    stop)
+    echo -n "Stopping $DESC: $NAME"
+    d_stop
+    echo "."
     ;;
-  *)
-    echo "Usage: /etc/init.d/smartnightstand {start|stop}"
+    restart)
+    echo -n "Restarting $DESC: $NAME"
+    d_stop
+    sleep 1
+    d_start
+    echo "."
+    ;;
+    *)
+    echo "usage: $NAME {start|stop|restart}"
     exit 1
     ;;
 esac
