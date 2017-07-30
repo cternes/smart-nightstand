@@ -1,12 +1,31 @@
 <configuration debug="false">
 	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-            <!-- Keep in mind that after changing the pattern, LogStash must be adapted also! -->
-			<pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+			<!-- Keep in mind that after changing the pattern, LogStash must be adapted 
+				also! -->
+			<pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
 		</encoder>
 	</appender>
-    
+	<appender name="file"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>nightstand.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>nightstand.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>60</maxHistory>
+			<totalSizeCap>1GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<!-- Keep in mind that after changing the pattern, LogStash must be adapted 
+				also! -->
+			<pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
 	<root level="INFO">
 		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
 	</root>
 </configuration>
