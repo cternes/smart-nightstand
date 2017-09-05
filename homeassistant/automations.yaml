@@ -1,0 +1,66 @@
+# Call light switch depending on dropdown selection
+- alias: Set Bedroom Light
+  trigger:
+    platform: state
+    entity_id: input_select.bedroom_preset
+  action:
+    service: switch.turn_on
+    data_template:
+      entity_id: >-
+        {% if is_state('input_select.bedroom_preset', 'Nacht') %}
+          switch.nightlight
+        {% elif is_state('input_select.bedroom_preset', 'Scanner') %}
+          switch.scannerlight
+        {% elif is_state('input_select.bedroom_preset', 'Regenbogen') %}
+          switch.rainbowlight
+        {% else %}
+          switch.lightsoff
+        {% endif %}
+
+# Set dropdown to correct value        
+- alias: Update bedroom light dropdown with Off value
+  trigger:
+    platform: state
+    entity_id: switch.lightsoff
+    to: 'on'
+  action:
+     service: input_select.select_option
+     data_template:
+      entity_id: input_select.bedroom_preset
+      option: 'Aus'
+
+# Set dropdown to correct value      
+- alias: Update bedroom light dropdown with Night value
+  trigger:
+    platform: state
+    entity_id: switch.nightlight
+    to: 'on'
+  action:
+     service: input_select.select_option
+     data_template:
+      entity_id: input_select.bedroom_preset
+      option: 'Nacht'
+
+# Set dropdown to correct value
+- alias: Update bedroom light dropdown with Pulse value
+  trigger:
+    platform: state
+    entity_id: switch.scannerlight
+    to: 'on'
+  action:
+     service: input_select.select_option
+     data_template:
+      entity_id: input_select.bedroom_preset
+      option: 'Scanner'
+
+# Set dropdown to correct value
+- alias: Update bedroom light dropdown with Rainbow value
+  trigger:
+    platform: state
+    entity_id: switch.rainbowlight
+    to: 'on'
+  action:
+     service: input_select.select_option
+     data_template:
+      entity_id: input_select.bedroom_preset
+      option: 'Regenbogen'  

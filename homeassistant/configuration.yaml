@@ -1,0 +1,121 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 47.388488
+  longitude: 8.083961
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 383
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Zurich
+
+# Show links to resources in log and frontend
+#introduction:
+
+group:
+  default_view:
+    view: yes
+    entities:
+      - group.bedroom
+      - group.livingroom
+  bedroom:
+    name: Schlafzimmer
+    entities:
+      - sensor.time
+      - sensor.temperature_bedroom
+      - input_select.bedroom_preset
+      - switch.lightsoff
+      - switch.nightlight
+      - switch.scannerlight
+      - switch.rainbowlight
+#  livingroom:
+#    name: Wohnzimmer
+#    entities:
+#      - sensor.time
+#      - sensor.templivingroom
+
+# Enables the frontend
+frontend:
+
+http:
+  # Uncomment this to add a password (recommended!)
+  # api_password: PASSWORD
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+#discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  platform: google
+
+# iOS support
+ios:
+
+# Define light scene dropdown
+input_select:
+  bedroom_preset:
+    name: Licht
+    options:
+      - Aus
+      - Nacht
+      - Scanner
+      - Regenbogen
+    initial: Aus
+
+# Define light switches    
+switch:
+  - platform: rest
+    name: lightsoff
+    friendly_name: Licht aus
+    resource: http://localhost:8080/api/v1/lights/off
+    body_on: '{"active": "true"}'
+    body_off: '{"active": "false"}'
+    is_on_template: '{{value_json.active}}'
+    scan_interval: 10
+  - platform: rest
+    name: nightlight
+    friendly_name: Nachtlicht
+    resource: http://localhost:8080/api/v1/lights/mode1
+    body_on: '{"active": "true"}'
+    body_off: '{"active": "false"}'
+    is_on_template: '{{value_json.active}}'  
+    scan_interval: 10
+  - platform: rest
+    name: scannerlight
+    friendly_name: Scannerlicht
+    resource: http://localhost:8080/api/v1/lights/mode2
+    body_on: '{"active": "true"}'
+    body_off: '{"active": "false"}'
+    is_on_template: '{{value_json.active}}'    
+    scan_interval: 10
+  - platform: rest
+    name: rainbowlight
+    friendly_name: Regenbogenlicht
+    resource: http://localhost:8080/api/v1/lights/mode3
+    body_on: '{"active": "true"}'
+    body_off: '{"active": "false"}'
+    is_on_template: '{{value_json.active}}'   
+    scan_interval: 10
+
+sensor: !include sensor.yaml
+automation: !include automations.yaml
+
