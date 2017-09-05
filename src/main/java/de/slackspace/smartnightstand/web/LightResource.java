@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tinkerforge.BrickletLEDStrip.FrameRenderedListener;
 
-import de.slackspace.smartnightstand.behavior.KnightRiderMode;
 import de.slackspace.smartnightstand.behavior.RainbowMode;
+import de.slackspace.smartnightstand.behavior.ScanMode;
 import de.slackspace.smartnightstand.device.Led;
 import de.slackspace.smartnightstand.device.api.LedStrip;
 import de.slackspace.smartnightstand.web.dto.LightResponse;
@@ -63,7 +63,7 @@ public class LightResource {
 
     @RequestMapping(method = RequestMethod.POST, value = "/mode2")
     public void enableModeTwo() {
-        setMode(2, new KnightRiderMode(ledStrip, 50, 900, 0, NUM_LEDS, 20));
+        setMode(2, new ScanMode(ledStrip, 50, 0, NUM_LEDS, 20));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mode2")
