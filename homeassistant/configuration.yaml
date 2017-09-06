@@ -24,7 +24,7 @@ group:
     name: Schlafzimmer
     entities:
       - sensor.time
-      - sensor.temperature_bedroom
+      - sensor.temperatur_schlafzimmer
       - input_select.bedroom_preset
       - switch.lightsoff
       - switch.nightlight
