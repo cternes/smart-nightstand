@@ -3,6 +3,7 @@ package de.slackspace.smartnightstand.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ import de.slackspace.smartnightstand.behavior.RainbowMode;
 import de.slackspace.smartnightstand.behavior.ScanMode;
 import de.slackspace.smartnightstand.device.Led;
 import de.slackspace.smartnightstand.device.api.LedStrip;
-import de.slackspace.smartnightstand.web.dto.LightResponse;
+import de.slackspace.smartnightstand.web.dto.LightModel;
 
 @RestController
 @RequestMapping("/api/v1/lights")
@@ -37,8 +38,8 @@ public class LightResource {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/off")
-    public LightResponse isModeOff() {
-        return new LightResponse(activeMode == 0);
+    public LightModel isModeOff() {
+        return new LightModel(activeMode == 0);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/current")
@@ -50,35 +51,50 @@ public class LightResource {
      * Night mode: low red light
      */
     @RequestMapping(method = RequestMethod.POST, value = "/mode1")
-    public void enableModeOne() {
-        ledStrip.removeFrameRenderedListener(currentMode);
-        ledStrip.setRangeLeds(0, NUM_LEDS, "#200000");
-        activeMode = 1;
+    public void enableModeOne(@RequestBody LightModel model) {
+    	if(!model.isActive()) {
+    		shutdownStrip();
+    		return;
+    	}
+    	
+    	ledStrip.removeFrameRenderedListener(currentMode);
+    	ledStrip.setRangeLeds(0, NUM_LEDS, "#200000");
+    	activeMode = 1;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mode1")
-    public LightResponse isModeOneEnabled() {
-        return new LightResponse(activeMode == 1);
+    public LightModel isModeOneEnabled() {
+        return new LightModel(activeMode == 1);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/mode2")
-    public void enableModeTwo() {
-        setMode(2, new ScanMode(ledStrip, 50, 0, NUM_LEDS, 20));
+    public void enableModeTwo(@RequestBody LightModel model) {
+    	if(!model.isActive()) {
+    		shutdownStrip();
+    		return;
+    	}
+    	
+    	setMode(2, new ScanMode(ledStrip, 50, 0, NUM_LEDS, 20));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mode2")
-    public LightResponse isModeTwoEnabled() {
-        return new LightResponse(activeMode == 2);
+    public LightModel isModeTwoEnabled() {
+        return new LightModel(activeMode == 2);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/mode3")
-    public void enableModeThree() {
-        setMode(3, new RainbowMode(ledStrip, 1));
+    public void enableModeThree(@RequestBody LightModel model) {
+    	if(!model.isActive()) {
+    		shutdownStrip();
+    		return;
+    	}
+    	
+    	setMode(3, new RainbowMode(ledStrip, 1));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mode3")
-    public LightResponse isModeThreeEnabled() {
-        return new LightResponse(activeMode == 3);
+    public LightModel isModeThreeEnabled() {
+        return new LightModel(activeMode == 3);
     }
 
     private void setMode(int mode, FrameRenderedListener newMode) {
@@ -89,5 +105,4 @@ public class LightResource {
         currentMode.frameRendered(0);
         activeMode = mode;
     }
-
 }

@@ -1,10 +1,14 @@
 package de.slackspace.smartnightstand.web.dto;
 
-public class LightResponse {
+public class LightModel {
 
     private boolean isActive;
+    
+    public LightModel() {
+		// used for DI
+	}
 
-    public LightResponse(boolean isActive) {
+    public LightModel(boolean isActive) {
         this.isActive = isActive;
     }
 
