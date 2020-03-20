@@ -24,7 +24,7 @@ GPIO.setup(BUTTON_4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def doPost( mode ):
    requestUrl = URL + '/' + mode
-   data = {}
+   data = {"active":"true"}
    data_json = json.dumps(data)
    headers = {'Content-type': 'application/json'}
    response = requests.post(requestUrl, data=data_json, headers=headers)
